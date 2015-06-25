@@ -49,6 +49,7 @@ class WmataApi
     bike_data = HTTParty.get("http://www.capitalbikeshare.com/data/stations/bikeStations.xml", query: { api_key: "#{@token}" })
     all_bikes = bike_data["stations"]["station"]
     sorted = all_bikes.min_by(3){|bike| distance_to(user_long, user_lat, bike['long'].to_f, bike['lat'].to_f)}
+    binding.pry
     sorted
   end
 end
