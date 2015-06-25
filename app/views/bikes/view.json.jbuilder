@@ -1,0 +1,1 @@
+json.array! @closest_3_stations
