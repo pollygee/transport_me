@@ -1,1 +1,1 @@
-json.array! @closest_3_stations
+json.bikes @closest_3_stations

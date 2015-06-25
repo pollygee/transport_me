@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'pry'
 
-class WmataApi
+class TransitApi
 
   def train_station_info station_code
     @token = File.read "./token.txt"
@@ -39,7 +39,6 @@ class WmataApi
   end
 
   def trains_live_data three_trains
-
     three_trains.map do |station|
       station.attribues.merge(next_train:  (train_station_info station["code"]))
     end.to_json
@@ -49,7 +48,6 @@ class WmataApi
     bike_data = HTTParty.get("http://www.capitalbikeshare.com/data/stations/bikeStations.xml", query: { api_key: "#{@token}" })
     all_bikes = bike_data["stations"]["station"]
     sorted = all_bikes.min_by(3){|bike| distance_to(user_long, user_lat, bike['long'].to_f, bike['lat'].to_f)}
-    binding.pry
     sorted
   end
 end
