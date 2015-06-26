@@ -18,15 +18,24 @@ class TransitApi
   def bus_w_distances user_long, user_lat
     @token = File.read "./token.txt"
     bus_info= HTTParty.get("https://api.wmata.com/Bus.svc/json/jStops?long=#{user_long}&lat=#{user_lat}&1000&api_key=#{@token}")
-    fail
     all_buses = bus_info["Stops"]
-    3_buses = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lat"], bus["Lon"] )}
-    3_buses.map{|stop| stop[:distance] = distance_to(user_long, user_lat, bus["Lat"], bus["Lon"]}
+    t = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lat"], bus["Lon"] )}
+    #t= t[0]
+    t.each do |bus|
+      # final_hash = t.map do |bus| 
+        # bus[:lat]= t["Lat"]
+        # bus[:long] = t["Long"]
+        # bus[:name] = t["Name"]
+        bus[:distance] = distance_to(user_long, user_lat, bus["Lat"], bus["Lon"])
+      #   bus[:routes] = t["Routes"]
+      #   bus[:stop_id] = bus["StopID"]
+      # end
+  end
   end
 
   def bus_predictions list
     list.each do |station|
-    bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions/?StopID=#{station["StopID"]}", query: {api_key: "#{@token}" })
+    bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions}", query: { StopID: "#{station["StopID"]}", api_key: "#{@token}" })
     station[:prediction] = bus_prediction["Predictions"]
     end
     list
