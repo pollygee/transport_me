@@ -7,6 +7,7 @@ class TransitApi
   def train_station_info station_code
     @token = File.read "./token.txt"
     @station_info = HTTParty.get("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/#{station_code}", query: { api_key: "#{@token}" })
+    @station_info.first[1]
   end
 
   def sorted_3 list    
@@ -26,7 +27,7 @@ class TransitApi
     bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions/?StopID=#{station["StopID"]}", query: {api_key: "#{@token}" })
     station[:prediction] = bus_prediction["Predictions"]
     end
-    list.to_json
+    list
   end
 
   def distance_to user_long, user_lat, long, lat
@@ -38,10 +39,21 @@ class TransitApi
     all_trains.min_by(3){|train| distance_to(user_long, user_lat, train.longitude, train.latitude)}
   end
 
-  def trains_live_data three_trains
+  def trains_live_data three_trains, user_long, user_lat
     three_trains.map do |station|
-      station.attribues.merge(next_train:  (train_station_info station["code"]))
-    end.to_json
+      { name: station.name,
+        code: station.code,
+        distance: distance_to(user_long, user_lat, station.longitude, station.latitude),
+        next_train:  (train_station_info station["code"]).map do |t|
+              {
+                line:      t["Line"],
+                min:      t["Min"],
+                cars:      t["Car"],
+                direction: t["Destination"],
+              }
+      end
+      }
+    end
   end
 
   def bike_w_distances user_long, user_lat
