@@ -22,18 +22,13 @@ class TransitApi
     t = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lat"], bus["Lon"] )}
     #t= t[0]
     t.each do |bus|
-      # final_hash = t.map do |bus| 
-        # bus[:lat]= t["Lat"]
-        # bus[:long] = t["Long"]
-        # bus[:name] = t["Name"]
-        bus[:distance] = distance_to(user_long, user_lat, bus["Lat"], bus["Lon"])
-      #   bus[:routes] = t["Routes"]
-      #   bus[:stop_id] = bus["StopID"]
-      # end
+        bus[:distance] = distance_to(user_long, user_lat, bus["Lon"], bus["Lat"])
   end
+  t
   end
 
   def bus_predictions list
+    fail
     list.each do |station|
     bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions}", query: { StopID: "#{station["StopID"]}", api_key: "#{@token}" })
     station[:prediction] = bus_prediction["Predictions"]
