@@ -18,8 +18,10 @@ class TransitApi
   def bus_w_distances user_long, user_lat
     @token = File.read "./token.txt"
     bus_info= HTTParty.get("https://api.wmata.com/Bus.svc/json/jStops?long=#{user_long}&lat=#{user_lat}&1000&api_key=#{@token}")
+    fail
     all_buses = bus_info["Stops"]
-    all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lat"], bus["Lon"] )}
+    3_buses = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lat"], bus["Lon"] )}
+    3_buses.map{|stop| stop[:distance] = distance_to(user_long, user_lat, bus["Lat"], bus["Lon"]}
   end
 
   def bus_predictions list
