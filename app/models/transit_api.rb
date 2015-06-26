@@ -3,10 +3,10 @@ require 'json'
 require 'pry'
 
 class TransitApi
-
+  Token = Figaro.env.wmata_api_key
   def train_station_info station_code
-    @token = File.read "./token.txt"
-    @station_info = HTTParty.get("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/#{station_code}", query: { api_key: "#{@token}" })
+    #@token = Figaro.env.wmata_api_key
+    @station_info = HTTParty.get("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/#{station_code}", query: { api_key: "#{Token}" })
     @station_info.first[1]
   end
 
@@ -16,9 +16,9 @@ class TransitApi
   end
 
   def bus_w_distances user_long, user_lat
-    @token = File.read "./token.txt"
-    bus_info= HTTParty.get("https://api.wmata.com/Bus.svc/json/jStops?long=#{user_long}&lat=#{user_lat}&1000&api_key=#{@token}")
-    all_buses = bus_info["Stops"]  #def returns all buses
+    #@token = Figaro.env.wmata_api_key
+    bus_info= HTTParty.get("https://api.wmata.com/Bus.svc/json/jStops?long=#{user_long}&lat=#{user_lat}&1000&api_key=#{Token}")
+    all_buses = bus_info["Stops"]
     three = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lon"], bus["Lat"] )}
     three.each do |bus|
         bus[:distance] = distance_to(user_long, user_lat, bus["Lon"], bus["Lat"])
@@ -28,7 +28,7 @@ class TransitApi
 
   def bus_predictions list
     list.each do |station|
-      bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions/?StopID=#{station["StopID"]}&api_key=#{@token}")
+      bus_prediction = HTTParty.get("https://api.wmata.com/NextBusService.svc/json/jPredictions/?StopID=#{station["StopID"]}&api_key=#{Token}")
     station[:prediction] = bus_prediction["Predictions"]
     end
     list
@@ -61,7 +61,7 @@ class TransitApi
   end
 
   def bike_w_distances user_long, user_lat
-    bike_data = HTTParty.get("http://www.capitalbikeshare.com/data/stations/bikeStations.xml", query: { api_key: "#{@token}" })
+    bike_data = HTTParty.get("http://www.capitalbikeshare.com/data/stations/bikeStations.xml", query: { api_key: "#{Token}" })
     all_bikes = bike_data["stations"]["station"]
     sorted = all_bikes.min_by(3){|bike| distance_to(user_long, user_lat, bike['long'].to_f, bike['lat'].to_f)}
     sorted
