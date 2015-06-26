@@ -48,12 +48,16 @@ class TransitApi
       { name: station.name,
         code: station.code,
         distance: distance_to(user_long, user_lat, station.longitude, station.latitude),
+        lat:       station[:latitude],
+        long:       station[:longitude],
         next_train:  (train_station_info station["code"]).map do |t|
               {
                 line:      t["Line"],
                 min:      t["Min"],
                 cars:      t["Car"],
                 direction: t["Destination"],
+                # lat:       station[:latitude]
+                # long:      lat:       station[:latitude]
               }
       end
       }

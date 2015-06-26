@@ -23,5 +23,6 @@ group :development, :test do
 end
 group :production do
   gem 'pg'
+  gem 'rollbar', '~> 1.2.7'
 end
 
