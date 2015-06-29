@@ -5,7 +5,6 @@ require 'pry'
 class TransitApi
   Token = Figaro.env.wmata_api_key
   def train_station_info station_code
-    #@token = Figaro.env.wmata_api_key
     @station_info = HTTParty.get("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/#{station_code}", query: { api_key: "#{Token}" })
     @station_info.first[1]
   end
@@ -16,7 +15,6 @@ class TransitApi
   end
 
   def bus_w_distances user_long, user_lat
-    #@token = Figaro.env.wmata_api_key
     bus_info= HTTParty.get("https://api.wmata.com/Bus.svc/json/jStops?long=#{user_long}&lat=#{user_lat}&1000&api_key=#{Token}")
     all_buses = bus_info["Stops"]
     three = all_buses.min_by(3){|bus| distance_to(user_long, user_lat, bus["Lon"], bus["Lat"] )}
@@ -56,19 +54,10 @@ class TransitApi
                 min:      t["Min"],
                 cars:      t["Car"],
                 direction: t["Destination"],
-                # lat:       station[:latitude]
-                # long:      lat:       station[:latitude]
               }
       end
       }
     end
-  end
-
-  def bike_w_distances user_long, user_lat
-    bike_data = HTTParty.get("http://www.capitalbikeshare.com/data/stations/bikeStations.xml", query: { api_key: "#{Token}" })
-    all_bikes = bike_data["stations"]["station"]
-    sorted = all_bikes.min_by(3){|bike| distance_to(user_long, user_lat, bike['long'].to_f, bike['lat'].to_f)}
-    sorted
   end
 end
 
