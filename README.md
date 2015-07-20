@@ -26,6 +26,8 @@ API
 =====
 Data returned is:
 ``` /train ```
+
+```
 {
   trains: [
     {
@@ -53,35 +55,41 @@ Data returned is:
     }
     ]
 }
-
+```
 
 ``` /bus ```
-  {
-    buses: [
-      {
-        Lat:
-        Lon: 
-        Name: 
-        Routes: [
 
-        ],
-        StopID: 
-        distance: 
-        prediction: [
-        {
-        RouteID: 
-        DirectionText: 
-        DirectionNum: 
-        Minutes:
-        VehicleID: 
-        TripID: 
-        }
-        ]
-        ]
+```
+{
+  buses: [
+    {
+      Lat:
+      Lon: 
+      Name: 
+      Routes: [
+
+      ],
+      StopID: 
+      distance: 
+      prediction: [
+      {
+      RouteID: 
+      DirectionText: 
+      DirectionNum: 
+      Minutes:
+      VehicleID: 
+      TripID: 
       }
+      ]
+      ]
     }
+}
+```
+
 
 ``` /bike ```
+
+```
 {
   bikes: [
     {
@@ -93,3 +101,4 @@ Data returned is:
       }
     ]
 }
+```
