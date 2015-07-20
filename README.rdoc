@@ -1,14 +1,31 @@
-Live version is at https://iron-rails-api.herokuapp.com
+Live Viewing
+============
+Deployed to Heroku [view here](https://iron-rails-api.herokuapp.com)
 
+Description
+=============
 This API returns information for public transport in Washington D.C. 
 
 Data for the closest 3 stations will be returned for Metro, Metrobus and Bikeshare
 
+Usage
+======
 endpoints are /train, /bus, /bike
-and require parameters of lat and long
+and require parameters of lat and long 
+ 
+Example
+========
+An example that will return data is:
+```iron-rails-api.herokuapp.com/train?lat=38.909706&long=-77.065357```
 
+Purpose
+========
+This was desinged as the backend of a group project at The Iron Yard.  The front and was desiged to use this API to display the data.  The final project can be viewed at [Exit Strategy](http://arhdesignco.com/exitstrategy/)
+
+API
+=====
 Data returned is:
-/train
+```/train```
 {
   trains: [
     {
@@ -38,7 +55,7 @@ Data returned is:
 }
 
 
-/bus
+```/bus```
   {
     buses: [
       {
@@ -64,7 +81,7 @@ Data returned is:
       }
     }
 
-/bike
+```/bike```
 {
   bikes: [
     {
