@@ -1,6 +1,7 @@
 Live Viewing
 ============
-Deployed to Heroku [view here](https://iron-rails-api.herokuapp.com)
+Deployed to Heroku [view sample here](https://iron-rails-api.herokuapp.com/train?lat=38.909706&long=-77.065357)  
+May take a few moments to load this live data.
 
 Description
 =============
@@ -15,8 +16,7 @@ and require parameters of lat and long
  
 Example
 ========
-An example that will return data is:
-```iron-rails-api.herokuapp.com/train?lat=38.909706&long=-77.065357```
+An example that will return data is: ``` iron-rails-api.herokuapp.com/train?lat=38.909706&long=-77.065357 ```
 
 Purpose
 ========
@@ -25,7 +25,7 @@ This was desinged as the backend of a group project at The Iron Yard.  The front
 API
 =====
 Data returned is:
-```/train```
+``` /train ```
 {
   trains: [
     {
@@ -55,7 +55,7 @@ Data returned is:
 }
 
 
-```/bus```
+``` /bus ```
   {
     buses: [
       {
@@ -81,7 +81,7 @@ Data returned is:
       }
     }
 
-```/bike```
+``` /bike ```
 {
   bikes: [
     {
